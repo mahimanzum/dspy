@@ -10,6 +10,8 @@ def retrieve(query: str, k: int, **kwargs) -> list[str]:
     if not dsp.settings.rm:
         raise AssertionError("No RM is loaded.")
     passages = dsp.settings.rm(query, k=k, **kwargs)
+    if hasattr(passages, 'passages'):
+        passages = passages.passages
     if not isinstance(passages, Iterable):
         # it's not an iterable yet; make it one.
         # TODO: we should unify the type signatures of dspy.Retriever
